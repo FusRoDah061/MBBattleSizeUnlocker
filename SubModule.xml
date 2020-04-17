@@ -1,15 +1,18 @@
 <Module>
   <Name value="BattleSizeUnlocker"/>
   <Id value="BattleSizeUnlocker"/>
-  <Version value="v1.0.0"/>
+  <Version value="v1.1.0"/>
   <SingleplayerModule value="true"/>
   <MultiplayerModule value="false"/>
+  <DefaultModule value="false"/>
+  <Official value="false"/>
   <DependedModules>
     <DependedModule Id="Native"/>
     <DependedModule Id="SandBoxCore"/>
     <DependedModule Id="Sandbox"/>
     <DependedModule Id="CustomBattle"/>
     <DependedModule Id="StoryMode" />
+    <DependedModule Id="ModLib" />
   </DependedModules>
   <SubModules>
     <SubModule>

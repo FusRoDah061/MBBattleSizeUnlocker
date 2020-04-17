@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ModLib;
+using System;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
@@ -8,12 +8,29 @@ namespace BattleSizeUnlocker
     public class Main : MBSubModuleBase
     {
 
+        public const string ModuleId = "BattleSizeUnlocker";
+
         private static ModSettings _settings;
 
         protected override void OnSubModuleLoad()
         {
             base.OnSubModuleLoad();
-            _settings = ModSettings.GetInstance();
+
+            try
+            {
+                FileDatabase.Initialise(ModuleId);
+
+                _settings = FileDatabase.Get<ModSettings>(ModuleId);
+                
+                if (_settings == null) _settings = new ModSettings();
+
+                SettingsDatabase.RegisterSettings(_settings);
+                SettingsDatabase.SaveSettings(_settings);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
         }
 
         protected override void OnSubModuleUnloaded()
@@ -22,9 +39,9 @@ namespace BattleSizeUnlocker
 
             try
             {
-                _settings.SaveSettings();
+                SettingsDatabase.SaveSettings(_settings);
             }
-            catch (NullReferenceException e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
             }
@@ -44,38 +61,5 @@ namespace BattleSizeUnlocker
             BannerlordConfig.BattleSize = _settings.CustomBattleSize;
         }
 
-        //Depends on this mod to manage the options menu:
-        //https://www.nexusmods.com/mountandblade2bannerlord/mods/504
-        public static Dictionary<string, string> GetModSettingValue()
-        {
-            // write to get settings as Dictionary from anywhere you want
-            //this method will be called when the player opens the settings screen to get your settings values 
-
-            try
-            {
-                return _settings.toDict();
-            }
-            catch(NullReferenceException e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-
-            return new Dictionary<string, string>();
-		}
-
-		public static void SaveModSettingValue(Dictionary<string, string> newSettings)
-        {
-            // write to save settings to anywhere you want
-            //this method will be called when the player clicks on Done button in the settings screen
-            try
-            {
-                _settings.fromDict(newSettings);
-                _settings.SaveSettings();
-            }
-            catch (NullReferenceException e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-        }
     }
 }
