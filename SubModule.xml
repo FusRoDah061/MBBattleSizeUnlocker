@@ -26,9 +26,4 @@
     </SubModule>
   </SubModules>
   <Xmls/>
-  <ModSettings>
-    <ModNumericSettings>
-      <ModNumericSetting Key="CustomBattleSize" Order="1" Text="Battle Size" Description="Total number of troops active on battles" DefaultValue="500" MaxValue="2000" MinValue="50"/>
-    </ModNumericSettings>
-  </ModSettings>
  </Module>
