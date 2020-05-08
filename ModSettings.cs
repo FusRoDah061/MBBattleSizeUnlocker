@@ -1,12 +1,11 @@
-﻿using ModLib;
-using ModLib.Attributes;
+﻿using ModLib.Definitions;
+using ModLib.Definitions.Attributes;
 using System.Xml.Serialization;
 
 namespace BattleSizeUnlocker
 {
     public class ModSettings : SettingsBase
 	{
-		private static ModSettings _instance;
 
 		[XmlElement]
 		public override string ID { get; set; } = Main.ModuleId;
@@ -17,12 +16,12 @@ namespace BattleSizeUnlocker
 		[SettingProperty("Battle size", 2, 2048, 2, 2048, "This setting will override the actual battle size setting for the game.")]
 		public int CustomBattleSize { get; set; } = 500;
 
-		public static ModSettings GetInstance()
+		public static ModSettings Instance
 		{
-			if(_instance == null)
-				_instance = (ModSettings) SettingsDatabase.GetSettings(Main.ModuleId);
-
-			return _instance;
+			get
+			{
+				return (ModSettings)SettingsDatabase.GetSettings<ModSettings>();
+			}
 		}
 
 	}
